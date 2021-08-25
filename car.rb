@@ -4,9 +4,7 @@ class Car < Transport
   attr_accessor :license_number
 
   def initialize(license_number)
-    super(max_weight, speed)
+    super(CAR_MAX_WEIGHT, CAR_MAX_SPEED)
     @license_number = license_number
-    @max_weight = CAR_MAX_WEIGHT
-    @speed = CAR_MAX_SPEED
   end
 end
