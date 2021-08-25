@@ -6,14 +6,17 @@ class DeliveryService
   def initialize(weight, distance)
     @weight = weight
     @distance = distance
-    @available_cars_number = CARS_NUMBER
-    @available_bikes_number = BIKES_NUMBER
+    @available_transport = Array.new(Constants::BIKES_NUMBER) { Bike.new }
   end
 
   def find_transport
-    if @weight <= BIKE_MAX_WEIGHT && @distance <= BIKE_MAX_DISTANCE && @available_bikes_number.positive?
+    if @weight <= BIKE_MAX_WEIGHT && @distance <= BIKE_MAX_DISTANCE && @available_transport.positive?
       # select bike as transport
-    elsif @available_cars_number.positive?
+      available_bike = @available_transport.first
+      available_bike.available = false
+      # delete the busy bike from array
+      # ...
+    elsif @available_transport.positive?
       # select car as transport
     else
       puts 'Sorry, all couriers are busy at the moment.'

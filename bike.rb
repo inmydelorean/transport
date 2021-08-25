@@ -1,10 +1,12 @@
 class Bike < Transport
   include Constants
 
+  attr_accessor :max_distance
+
   def initialize
-    @max_distance = BIKE_MAX_DISTANCE
+    super(max_weight, speed)
     @max_weight = BIKE_MAX_WEIGHT
     @speed = BIKE_MAX_SPEED
-    super
+    @max_distance = BIKE_MAX_DISTANCE
   end
 end
