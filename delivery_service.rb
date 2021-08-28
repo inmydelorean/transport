@@ -1,25 +1,20 @@
 class DeliveryService
   include Constants
 
-  attr_accessor :weight, :distance
-
-  def initialize(weight, distance)
-    @weight = weight
-    @distance = distance
-    @available_transport = Array.new(Constants::BIKES_NUMBER) { Bike.new }
+  def initialize
+    all_bikes = Array.new(Constants::BIKES_NUMBER) { Bike.new }
+    all_cars = Array.new(Constants::CARS_NUMBER) { Car.new(rand(1000..9999)) }
+    @all_transport = all_bikes + all_cars
   end
 
-  def find_transport
-    if @weight <= BIKE_MAX_WEIGHT && @distance <= BIKE_MAX_DISTANCE && @available_transport.positive?
-      # select bike as transport
-      available_bike = @available_transport.first
-      available_bike.available = false
-      # delete the busy bike from array
-      # ...
-    elsif @available_transport.positive?
-      # select car as transport
-    else
-      puts 'Sorry, all couriers are busy at the moment.'
+  def find_transport(weight, distance)
+    suitable_transport = @all_transport.select do |element|
+      element.available == true && weight <= element.max_weight && distance <= element.max_distance if element.max_distance.present?
     end
+    raise 'Sorry, all couriers are busy at the moment.' if suitable_transport.empty?
+
+    suitable_transport.sort(add_sorting_logic_here)
+    picked_transport = suitable_transport.first
+    picked_transport.available = false
   end
 end

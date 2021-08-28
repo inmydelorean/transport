@@ -3,8 +3,22 @@ class Transport
 
   attr_accessor :max_weight, :speed, :available
 
-  def <=>(other)
-    delivery_efficiency <=> other.delivery_efficiency
+  def compare_transport(other)
+    if @max_weight > other.max_weight
+      1
+    elsif @max_weight == other.max_weight
+      if max_distance > other.max_distance
+        1
+      elsif max_distance == other.max_distance
+        0
+      elsif max_distance < other.max_distance
+        -1
+      end
+    elsif @max_weight < other.max_weight
+      -1
+    else
+      raise 'Elements are not comparable.'
+    end
   end
 
   def initialize(max_weight, speed)
@@ -22,10 +36,12 @@ class Transport
   end
 
   def delivery_time(distance)
+    process_speed
     distance / @speed
   end
 
   def delivery_efficiency
+    process_weight
     @speed / @max_weight
   end
 end
